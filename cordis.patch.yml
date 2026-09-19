@@ -1,0 +1,18 @@
+# ============================================================================
+# dsh-iuno-widget —— DSH bundle patch
+# ============================================================================
+# 这是插件的"挂载声明"。DSH 启动时按 bundle 层栈叠加各插件 patch，
+# 本文件会把「尤诺」整站主题皮肤挂载进 Web profile 的配置树。
+#
+# 安装方式（无需手工复制 / 手工改 profile patch）：
+#   dsh plugin --profile web add dsh-iuno-widget
+# 或本地开发安装（在仓库根目录，即 package.json 所在目录）：
+#   dsh plugin --profile web add link:.
+#
+# 注意：这里必须写包名（bundle 插件名），不要写 ./xxx.mjs?v=N —— 那是手动
+# 复制到 profile 做本机热更的写法，发布给他人会因路径不存在而破坏启动。
+# ============================================================================
+
+- insert:
+    - id: dsh-iuno-widget
+      name: dsh-iuno-widget

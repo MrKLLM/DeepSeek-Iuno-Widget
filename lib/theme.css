@@ -1,0 +1,611 @@
+/* ============================================================================
+ * 尤诺主题（Iuno Skin）—— DSH Web 界面整站皮肤 · v4
+ * ----------------------------------------------------------------------------
+ * 极简取向：让壁纸做主角，UI 只用细金线点缀。
+ *
+ * 三条铁律：
+ *  1. 壁纸不模糊、不压暗 —— 用户要看得清立绘。
+ *  2. 装饰一律细：1px 金发丝线，不再堆砌"满城黄金"。
+ *  3. 玻璃面板低 alpha + 轻 blur，留出大量留白。
+ * ==========================================================================*/
+
+/* ══════════════════════════════════════════════════════════════════════════
+   1. 强调色（明暗共用）
+   ══════════════════════════════════════════════════════════════════════════ */
+html body {
+  --dsw-static-deepseek-400: #7aa6f5;
+  --dsw-static-deepseek-450: #5b8ae8;
+  --dsw-static-deepseek-500: #4670d6;
+  --dsw-static-deepseek-300: #9dc0ff;
+  --dsw-static-deepseek-600: #3857b0;
+  --dsw-static-deepseek-800: #1e2f63;
+  --dsw-static-deepseek-900: #16234d;
+
+  --dsw-static-amber-100: #fff6e0;
+  --dsw-static-amber-400: #e8c877;
+  --dsw-static-amber-500: #d9b45f;
+  --dsw-static-amber-600: #c39a45;
+
+  --yn-gold: #e8cd8a;
+  --yn-gold-soft: rgba(232, 205, 138, 0.35);
+  --yn-hair: rgba(232, 205, 138, 0.26);
+  --yn-moon: #eaf2ff;
+  /* 尤诺蓝月牙（首尾相接版）：发送键、新会话、会话行共用同一枚 */
+  --yn-moon-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23e8f2ff'/%3E%3Cstop offset='.5' stop-color='%239dc0ff'/%3E%3Cstop offset='1' stop-color='%235b8ae8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill-rule='evenodd' fill='url(%23g)' d='M3 16 a13 13 0 1 1 26 0 a13 13 0 1 1 -26 0 Z M9 16 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 Z'/%3E%3C/svg%3E");
+  --yn-ambience: 1;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   2. 深空（dark）—— 把背景阶梯做轻，让壁纸透出来
+   ══════════════════════════════════════════════════════════════════════════ */
+html body[data-ds-dark-theme] {
+  --dsw-static-neutral-bluish-1000: #04060e;
+  --dsw-static-neutral-bluish-950: #060a17;
+  --dsw-static-neutral-bluish-900: #080e20;
+  --dsw-static-neutral-bluish-875: #0a1226;
+  --dsw-static-neutral-bluish-850: #0d1730;
+  --dsw-static-neutral-bluish-800: #111e3e;
+  --dsw-static-neutral-bluish-750: #16264d;
+  --dsw-static-neutral-bluish-700: #1e315f;
+  --dsw-static-neutral-bluish-600: #4f6694;
+  --dsw-static-neutral-bluish-500: #7088b3;
+  --dsw-static-neutral-bluish-400: #93aacd;
+  --dsw-static-neutral-bluish-300: #b3c6ec;
+  --dsw-static-neutral-bluish-200: #cddcf8;
+  --dsw-static-neutral-bluish-150: #dbe7fb;
+  --dsw-static-neutral-bluish-100: #e3edff;
+  --dsw-static-neutral-bluish-75: #edf3ff;
+  --dsw-static-neutral-bluish-60: #f1f6ff;
+  --dsw-static-neutral-bluish-50: #f4f8ff;
+  --dsw-static-neutral-bluish-00: #ffffff;
+
+  --dsw-static-neutral-900: #0b1428;
+  --dsw-static-neutral-700: #1c2b55;
+  --dsw-static-neutral-600: #2c3f70;
+  --dsw-static-neutral-500: #4b639f;
+  --dsw-static-neutral-400: #6b82b6;
+  --dsw-static-neutral-300: #8ea4cc;
+  --dsw-static-neutral-200: #b9cbf0;
+  --dsw-static-neutral-100: #e2ecff;
+  --dsw-static-neutral-50: #eef4ff;
+
+  /* 发丝线偏金，但很细 */
+  --dsw-alias-border-l1: rgba(232, 205, 138, 0.10);
+  --dsw-alias-border-l2: rgba(232, 205, 138, 0.18);
+  --dsw-alias-border-l3: rgba(232, 205, 138, 0.26);
+  --dsw-alias-border-l4: rgba(232, 205, 138, 0.34);
+
+  --dsw-alias-interactive-bg-hover: rgba(232, 205, 138, 0.10);
+  --dsw-alias-interactive-bg-hover-solid: rgba(232, 205, 138, 0.18);
+  --dsw-alias-interactive-bg-hover-accent: rgba(122, 166, 245, 0.18);
+  --dsw-alias-interactive-bg-active: rgba(232, 205, 138, 0.18);
+
+  /* 主按钮：饰金（暗色下白→金） */
+  --dsw-alias-brand-primary: #f0cf8a;
+  --dsw-alias-brand-text: #eaf2ff;
+  --dsw-alias-button-primary-fill: #f0cf8a;
+  --dsw-alias-button-primary-hover: #ffe3a8;
+  --dsw-alias-label-primary-foreground: #08122b;
+  --dsw-alias-button-info-fill: #e8cd8a;
+  --dsw-alias-button-info-hover: #f5dc9e;
+
+  /* 关键：bg-base 半透明，让壁纸透出来 */
+  --dsw-alias-bg-base: rgba(6, 10, 23, 0.42);
+  --dsw-alias-bg-layer-1: rgba(9, 16, 36, 0.86);
+  --dsw-alias-bg-layer-2: rgba(8, 15, 34, 0.90);
+  --dsw-alias-bg-layer-3: rgba(7, 13, 30, 0.94);
+  --dsw-alias-bg-module-platform: rgba(22, 38, 77, 0.45);
+  --dsw-specific-menu: rgba(9, 15, 34, 0.96);
+  --dsw-specific-tip: rgba(11, 19, 42, 0.92);
+  --dsw-specific-input-major: rgba(12, 21, 46, 0.50);
+  --dsw-specific-bubble: rgba(28, 48, 104, 0.45);
+  --dsw-specific-sidebar-fill: rgba(9, 16, 36, 0.58);
+  --dsw-specific-selector: rgba(232, 205, 138, 0.12);
+  --dsw-alias-tooltip-bg: rgba(16, 27, 58, 0.97);
+
+  --dsw-alias-markdown-code-block: rgba(6, 11, 26, 0.72);
+  --dsw-alias-markdown-inline-code: rgba(232, 205, 138, 0.10);
+
+  --dsw-elevation-stroke-color: rgba(232, 205, 138, 0.16);
+  --dsw-shadow-lv3: 0 8px 24px rgba(2, 5, 14, 0.45);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   3. 月白（light）—— 极浅调，让壁纸完全显露
+   ══════════════════════════════════════════════════════════════════════════ */
+html body:not([data-ds-dark-theme]) {
+  --dsw-static-neutral-bluish-1000: #0b1428;
+  --dsw-static-neutral-bluish-950: #16203a;
+  --dsw-static-neutral-bluish-900: #1d2a49;
+  --dsw-static-neutral-bluish-875: #253356;
+  --dsw-static-neutral-bluish-850: #2c3b60;
+  --dsw-static-neutral-bluish-800: #35456c;
+  --dsw-static-neutral-bluish-750: #46577f;
+  --dsw-static-neutral-bluish-700: #5a6a92;
+  --dsw-static-neutral-bluish-600: #6f7fa6;
+  --dsw-static-neutral-bluish-500: #8796ba;
+  --dsw-static-neutral-bluish-400: #9dabc9;
+  --dsw-static-neutral-bluish-300: #b9c5dd;
+  --dsw-static-neutral-bluish-200: #d3dcee;
+  --dsw-static-neutral-bluish-150: #e2e8f6;
+  --dsw-static-neutral-bluish-100: #e8eef9;
+  --dsw-static-neutral-bluish-75: #eef3fb;
+  --dsw-static-neutral-bluish-60: #f2f5fc;
+  --dsw-static-neutral-bluish-50: #f6f9ff;
+  --dsw-static-neutral-bluish-00: #ffffff;
+
+  --dsw-alias-border-l1: rgba(28, 44, 84, 0.08);
+  --dsw-alias-border-l2: rgba(28, 44, 84, 0.14);
+  --dsw-alias-border-l3: rgba(28, 44, 84, 0.18);
+  --dsw-alias-border-l4: rgba(28, 44, 84, 0.24);
+  --dsw-alias-interactive-bg-hover: rgba(28, 44, 84, 0.06);
+  --dsw-alias-interactive-bg-hover-solid: rgba(28, 44, 84, 0.10);
+  --dsw-alias-brand-primary: #1a2440;
+  --dsw-alias-brand-text: #101a33;
+  --dsw-alias-button-info-fill: #3f61d6;
+  --dsw-alias-button-info-hover: #4f76e8;
+  --dsw-alias-bg-base: rgba(247, 250, 255, 0.58);
+  --dsw-alias-bg-layer-1: rgba(255, 255, 255, 0.92);
+  --dsw-alias-bg-layer-2: rgba(255, 255, 255, 0.94);
+  --dsw-alias-bg-layer-3: rgba(255, 255, 255, 0.96);
+  --dsw-specific-sidebar-fill: rgba(243, 246, 253, 0.66);
+  --dsw-specific-input-major: rgba(255, 255, 255, 0.70);
+  --dsw-specific-bubble: rgba(226, 238, 255, 0.70);
+  --dsw-elevation-stroke-color: rgba(28, 44, 84, 0.10);
+  --yn-hair: rgba(176, 138, 62, 0.30);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   4. 壁纸层 —— 关键：不模糊、不压暗，让立绘清晰可辨
+   ══════════════════════════════════════════════════════════════════════════ */
+.yn-skin-wall {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: #05080f;
+  background-image: var(--yn-wallpaper, none);
+  background-size: cover;
+  background-position: 58% 26%;
+  background-repeat: no-repeat;
+  /* 仅极轻微压暗，保证可读性，壁纸完全清晰 */
+  filter: brightness(0.86);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   5. 侧边栏 —— 轻玻璃 + 一条细金线
+   ══════════════════════════════════════════════════════════════════════════ */
+html body [class*="_sidebarCol"] {
+  /* 注意：这里不能加 backdrop-filter —— 它会成为 position:fixed 后代的包含块，
+     DSH 的设置弹层/下拉菜单挂在侧栏里，一旦加就会错位。 */
+  background: linear-gradient(180deg, rgba(9, 16, 36, 0.74) 0%, rgba(7, 12, 30, 0.82) 100%);
+  border-right: 0.5px solid var(--yn-hair);
+}
+html body:not([data-ds-dark-theme]) [class*="_sidebarCol"] {
+  background: linear-gradient(180deg, rgba(243, 246, 253, 0.86) 0%, rgba(238, 242, 252, 0.9) 100%);
+  border-right-color: var(--yn-hair);
+}
+
+html body [class*="_brandName"] {
+  /* 底层常驻金渐变 + 顶层一条白色高光带（藏在画外），hover 时高光带扫过字身 */
+  background:
+    linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58%) no-repeat,
+    linear-gradient(100deg, #fff6dd 0%, #f0cf8a 55%, #cfe0ff 100%);
+  background-size: 250% 100%, 100% 100%;
+  background-position: 160% 0, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* 收紧字距与字号，配合徽记限宽后，"deepseek HARNESS" 在 236px 侧栏里放得下 */
+  letter-spacing: 0.02em;
+  font-size: 17px;
+  white-space: nowrap;
+}
+/* 品牌名：hover 时一道金光扫过字身 */
+html body [class*="_brand"]:hover [class*="_brandName"] {
+  animation: yn-brand-shine 1.1s ease;
+}
+@keyframes yn-brand-shine {
+  from { background-position: 160% 0, 0 0; }
+  to   { background-position: -60% 0, 0 0; }
+}
+/* 品牌名里自带 opacity 的子 span（如 "deepseek"）会自成图层，父元素的
+   background-clip:text 画不到它，而 color:transparent 又让它隐形——
+   给子 span 单独配一份同款渐变裁切，hover 时同样被金光扫过 */
+html body [class*="_brandName"] > span {
+  background:
+    linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58%) no-repeat,
+    linear-gradient(100deg, #fff6dd 0%, #f0cf8a 55%, #cfe0ff 100%);
+  background-size: 250% 100%, 100% 100%;
+  background-position: 160% 0, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+html body [class*="_brand"]:hover [class*="_brandName"] > span {
+  animation: yn-brand-shine 1.1s ease;
+}
+html body [class*="_brandMark"] svg {
+  /* 原图 50px 太大，把品牌名挤到截断，限到 24px 让位 */
+  max-width: 24px;
+  max-height: 24px;
+  color: var(--yn-gold);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+}
+/* 品牌徽记：hover 时像被月光点了一下，轻轻一斜 */
+html body [class*="_brand"]:hover [class*="_brandMark"] svg {
+  transform: rotate(-10deg) scale(1.06);
+  filter: drop-shadow(0 0 6px rgba(255, 232, 180, 0.75));
+}
+
+/* 「新会话」—— 细金边 + 玻璃底；加号换成一弯月牙，hover 月光拂过 */
+html body [class*="_newSession"]:not([class*="Label"]) {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(240, 207, 138, 0.14), rgba(240, 207, 138, 0.04));
+  border: 0.5px solid var(--yn-gold-soft);
+  color: #ffeec2;
+  box-shadow: 0 0 12px -8px rgba(255, 214, 140, 0.6);
+  transition: background 0.16s ease, border-color 0.16s ease,
+              box-shadow 0.2s ease, transform 0.12s ease;
+}
+/* 隐藏原来的「+」图标，换成一弯会呼吸的尤诺蓝月牙（与发送键同款 SVG） */
+html body [class*="_newSession"]:not([class*="Label"]) svg { display: none; }
+html body [class*="_newSession"]:not([class*="Label"])::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  line-height: 1;
+  margin-right: 4px;
+  background: var(--yn-moon-svg) center / contain no-repeat;
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+html body [class*="_newSession"]:not([class*="Label"]):hover::before {
+  transform: rotate(-24deg) scale(1.15);
+}
+/* hover 时一缕月光从左向右拂过（仅一次 transform 动画，极轻） */
+html body [class*="_newSession"]:not([class*="Label"])::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255, 240, 200, 0.22), transparent);
+  transform: skewX(-18deg);
+  opacity: 0;
+  pointer-events: none;
+}
+html body [class*="_newSession"]:not([class*="Label"]):hover::after {
+  opacity: 1;
+  animation: yn-moon-sweep 0.9s ease;
+}
+@keyframes yn-moon-sweep {
+  from { left: -60%; }
+  to { left: 130%; }
+}
+html body [class*="_newSession"]:not([class*="Label"]):hover {
+  background: linear-gradient(180deg, rgba(240, 207, 138, 0.24), rgba(240, 207, 138, 0.10));
+  border-color: rgba(255, 232, 180, 0.7);
+  box-shadow: 0 0 18px -8px rgba(255, 214, 140, 0.85);
+  transform: translateY(-1px);
+}
+html body [class*="_newSession"]:not([class*="Label"]):active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 0.06s;
+}
+html body:not([data-ds-dark-theme]) [class*="_newSession"]:not([class*="Label"]) {
+  color: #6b5220;
+  background: linear-gradient(180deg, rgba(240, 207, 138, 0.32), rgba(240, 207, 138, 0.14));
+  border-color: rgba(176, 138, 62, 0.45);
+}
+html body:not([data-ds-dark-theme]) [class*="_newSession"]:not([class*="Label"])::before {
+  filter: brightness(0.88) saturate(1.25);
+}
+
+/* 图标按钮：hover 金色微光 + 轻微浮起，按下回弹 */
+html body [class*="_iconButton"] {
+  transition: color 0.16s ease, background 0.16s ease, transform 0.12s ease;
+}
+html body [class*="_iconButton"]:hover {
+  color: var(--yn-gold);
+  background: rgba(232, 205, 138, 0.10);
+  transform: translateY(-1px);
+}
+html body [class*="_iconButton"]:active {
+  transform: scale(0.92);
+  transition-duration: 0.06s;
+}
+
+/* 会话行 hover：轻微提亮 + 向右探出 2px */
+html body [class*="_sessionRow"],
+html body [class*="_projectRow"] {
+  position: relative;
+  border-radius: 8px;
+  transition: background 0.16s ease, transform 0.18s ease;
+}
+html body [class*="_sessionRow"]:hover,
+html body [class*="_projectRow"]:hover {
+  background: rgba(232, 205, 138, 0.10);
+  transform: translateX(2px);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   6. 输入区 —— 一条细金边的轻玻璃（去掉四角支架、内环、水印）
+   ══════════════════════════════════════════════════════════════════════════ */
+html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]) {
+  /* 同样不能加 backdrop-filter：输入卡里有 fixed 定位的模型/权限下拉 */
+  background: linear-gradient(180deg, rgba(12, 22, 50, 0.80) 0%, rgba(6, 12, 30, 0.86) 100%);
+  border: none;
+  box-shadow: inset 0 0 0 0.5px var(--yn-hair), 0 16px 40px -24px rgba(0, 0, 0, 0.7);
+  transition: box-shadow 0.2s ease;
+}
+html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):focus-within {
+  box-shadow: inset 0 0 0 0.5px var(--yn-gold-soft), 0 16px 40px -24px rgba(0, 0, 0, 0.7);
+  animation: yn-composer-glow 2.6s ease-in-out infinite;
+}
+/* 聚焦时金边轻轻呼吸，像月晕一张一弛 */
+@keyframes yn-composer-glow {
+  0%, 100% { box-shadow: inset 0 0 0 0.5px var(--yn-gold-soft), 0 16px 40px -24px rgba(0, 0, 0, 0.7); }
+  50% { box-shadow: inset 0 0 0 0.5px rgba(255, 232, 180, 0.55), 0 0 28px -10px rgba(255, 214, 140, 0.5), 0 16px 40px -24px rgba(0, 0, 0, 0.7); }
+}
+html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]) {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 251, 255, 0.94) 100%);
+}
+
+/* 光标：金色 */
+html body [class*="_composerStack"] [class*="_input"] { caret-color: var(--yn-gold); }
+/* 占位提示：一点月色金 */
+html body [class*="_composerStack"] [class*="_input"]::placeholder,
+html body [class*="_composerStack"] [class*="_placeholder"] {
+  color: rgba(232, 205, 138, 0.38);
+}
+html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_input"]::placeholder,
+html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_placeholder"] {
+  color: rgba(176, 138, 62, 0.45);
+}
+
+/* 「+」—— 回到简单圆形，薄金边，去掉水晶六边形 */
+html body [class*="_composerStack"] [class*="_add"] {
+  background: rgba(232, 205, 138, 0.10);
+  box-shadow: inset 0 0 0 0.5px var(--yn-hair);
+  color: #ffeec2;
+  transition: background 0.16s ease, box-shadow 0.16s ease, transform 0.12s ease;
+}
+html body [class*="_composerStack"] [class*="_add"]:hover:not(:disabled) {
+  background: rgba(232, 205, 138, 0.20);
+  box-shadow: inset 0 0 0 0.5px var(--yn-gold-soft);
+}
+html body [class*="_composerStack"] [class*="_add"]:active:not(:disabled) {
+  transform: scale(0.92);
+  transition-duration: 0.06s;
+}
+/* 「+」hover 时转四分之一圈，像星芒转了一下 */
+html body [class*="_composerStack"] [class*="_add"] svg {
+  transition: transform 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+html body [class*="_composerStack"] [class*="_add"]:hover:not(:disabled) svg {
+  transform: rotate(90deg);
+}
+html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_add"] {
+  color: #6b5220;
+}
+
+/* 发送按钮 —— 一弯尤诺蓝的下弦月：细到首尾几乎相接，像壁纸里那弯月 */
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"]) {
+  position: relative;
+  background: transparent;
+  box-shadow: none;
+  color: transparent;               /* 原来的箭头图标隐去 */
+  filter: drop-shadow(0 2px 7px rgba(122, 166, 245, 0.5));
+  transition: transform 0.14s ease, filter 0.18s ease;
+}
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"]) svg {
+  opacity: 0;
+}
+/* 月牙本体：一枚首尾相接的下弦月（内圆与外圆内切于右缘，月牙连成一整瓣；内联 SVG，evenodd 镂空） */
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"])::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--yn-moon-svg) center / contain no-repeat;
+  pointer-events: none;
+}
+/* 禁用（未输入）时：月牙熄成暗蓝灰 */
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"]):disabled::before {
+  filter: grayscale(0.7) brightness(0.45);
+}
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"]):disabled {
+  filter: none;
+}
+/* 按下一瞬绽开的月环 */
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"])::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1.4px solid rgba(190, 225, 255, 0.9);
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+}
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"]):active:not(:disabled)::after {
+  animation: yn-send-ring 0.5s ease-out;
+}
+@keyframes yn-send-ring {
+  0% { opacity: 0.95; transform: scale(0.8); }
+  100% { opacity: 0; transform: scale(1.9); }
+}
+/* 就绪时月牙的蓝光一呼一吸 */
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"]):not(:disabled) {
+  animation: yn-send-breathe 3.2s ease-in-out infinite;
+}
+@keyframes yn-send-breathe {
+  0%, 100% { filter: drop-shadow(0 2px 6px rgba(122, 166, 245, 0.35)); }
+  50% { filter: drop-shadow(0 2px 12px rgba(157, 192, 255, 0.8)); }
+}
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"]):hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.06);
+  filter: drop-shadow(0 3px 13px rgba(157, 192, 255, 0.9));
+}
+html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):not([class*="Option"]):not([class*="Item"]):active:not(:disabled) {
+  transform: scale(0.94);
+  transition-duration: 0.06s;
+}
+
+/* 药丸：去金细框，默认 DSH，hover 轻微金调 */
+html body [class*="_composerStack"] [class*="_selector"] {
+  transition: background 0.16s ease, box-shadow 0.16s ease;
+}
+html body [class*="_composerStack"] [class*="_selector"]:hover {
+  background: rgba(232, 205, 138, 0.10);
+  box-shadow: 0 0 0 0.5px var(--yn-hair);
+}
+html body [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]) {
+  transition: color 0.16s ease, background 0.16s ease;
+}
+html body [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]):hover {
+  color: #ffeec2;
+  background: rgba(232, 205, 138, 0.08);
+}
+html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_selector"]:hover,
+html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]):hover {
+  background: rgba(176, 138, 62, 0.10);
+  color: #6b5220;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   7. 起始页标题 —— 干净的金色月光（不再加月环 / 水印 / 暗场）
+   ══════════════════════════════════════════════════════════════════════════ */
+html body [class*="_headline"]:not([class*="Text"]) {
+  color: var(--yn-moon);
+  text-shadow: 0 0 18px rgba(122, 166, 245, 0.3);
+  letter-spacing: 0.02em;
+}
+html body:not([data-ds-dark-theme]) [class*="_headline"]:not([class*="Text"]) {
+  color: #16203a;
+  text-shadow: 0 0 14px rgba(122, 166, 245, 0.25);
+}
+
+/* 起始页标题：一道月光每隔几秒缓缓扫过字身 */
+html body [class*="_headlineText"] {
+  background: linear-gradient(110deg, var(--yn-moon) 38%, #f6d98f 50%, var(--yn-moon) 62%);
+  background-size: 240% 100%;
+  background-position: 120% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: yn-headline-shine 7s ease-in-out infinite;
+}
+@keyframes yn-headline-shine {
+  0% { background-position: 120% 0; }
+  45% { background-position: -30% 0; }
+  100% { background-position: -30% 0; }
+}
+html body:not([data-ds-dark-theme]) [class*="_headlineText"] {
+  background: linear-gradient(110deg, #16203a 38%, #c39a45 50%, #16203a 62%);
+  background-size: 240% 100%;
+  background-position: 120% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+html body [class*="_bubble"] {
+  box-shadow: inset 0 0 0 0.5px var(--yn-hair);
+  animation: yn-bubble-in 0.38s cubic-bezier(0.22, 0.9, 0.3, 1);
+}
+/* 气泡入场：从月色里浮上来 */
+@keyframes yn-bubble-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   7.5 界面动画 —— 侧栏收起/展开平滑过渡
+   ══════════════════════════════════════════════════════════════════════════ */
+html body [class*="_frame"] {
+  transition: grid-template-columns 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   8. 通用交互
+   ══════════════════════════════════════════════════════════════════════════ */
+html body * { scrollbar-color: rgba(232, 205, 138, 0.30) transparent; }
+html body ::-webkit-scrollbar-thumb {
+  background: rgba(232, 205, 138, 0.32);
+  border-radius: 999px;
+}
+html body ::-webkit-scrollbar-thumb:hover { background: rgba(232, 205, 138, 0.5); }
+html body ::-webkit-scrollbar-track { background: transparent; }
+html body ::selection { background: rgba(232, 205, 138, 0.3); color: inherit; }
+html body :focus-visible { outline-color: rgba(232, 205, 138, 0.7); }
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   9. 氛围层 —— 只保留壁纸之上最轻的两层
+   ══════════════════════════════════════════════════════════════════════════ */
+.yn-skin-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: calc(0.85 * var(--yn-ambience, 1));
+  mix-blend-mode: screen;
+  transition: opacity 0.4s ease;
+}
+.yn-skin-veil[hidden] { display: none; }
+
+/* 一层极轻星尘 */
+.yn-skin-stars {
+  position: absolute;
+  inset: -50%;
+  background-image:
+    radial-gradient(1.4px 1.4px at 30px 60px, rgba(255, 255, 255, 0.8), transparent 100%),
+    radial-gradient(1.1px 1.1px at 190px 240px, rgba(206, 228, 255, 0.7), transparent 100%),
+    radial-gradient(1.3px 1.3px at 420px 130px, rgba(255, 246, 221, 0.7), transparent 100%);
+  background-size: 640px 520px;
+  opacity: 0.25;
+  animation: yn-drift 260s linear infinite;
+}
+@keyframes yn-drift {
+  to { transform: translate3d(-320px, 200px, 0); }
+}
+
+/* 第二层：几颗会眨眼的星（只闪不动） */
+.yn-skin-veil::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.6px 1.6px at 12% 22%, rgba(255, 246, 221, 0.9), transparent 100%),
+    radial-gradient(1.2px 1.2px at 68% 12%, rgba(206, 228, 255, 0.85), transparent 100%),
+    radial-gradient(1.4px 1.4px at 84% 58%, rgba(255, 255, 255, 0.85), transparent 100%),
+    radial-gradient(1.2px 1.2px at 38% 76%, rgba(255, 246, 221, 0.8), transparent 100%),
+    radial-gradient(1.3px 1.3px at 55% 38%, rgba(206, 228, 255, 0.75), transparent 100%);
+  background-repeat: no-repeat;
+  opacity: 0.35;
+  animation: yn-twinkle 5.2s ease-in-out infinite;
+}
+@keyframes yn-twinkle {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.5; }
+}
+
+html body:not([data-ds-dark-theme]) .yn-skin-veil { mix-blend-mode: normal; opacity: calc(0.16 * var(--yn-ambience, 1)); }
+html body:not([data-ds-dark-theme]) .yn-skin-stars { opacity: 0.12; }
+
+@media (prefers-reduced-motion: reduce) {
+  .yn-skin-stars,
+  .yn-skin-veil::before { animation: none !important; }
+  html body [class*="_newSession"]:not([class*="Label"]):hover::after { animation: none !important; }
+  html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):focus-within { animation: none !important; }
+  html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]) { animation: none !important; }
+  html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):active:not(:disabled)::after { animation: none !important; }
+  html body [class*="_bubble"] { animation: none !important; }
+  html body [class*="_frame"] { transition: none !important; }
+  html body [class*="_headlineText"] { animation: none !important; background-position: 0 0; }
+  html body [class*="_brand"]:hover [class*="_brandName"],
+  html body [class*="_brand"]:hover [class*="_brandName"] > span { animation: none !important; }
+}

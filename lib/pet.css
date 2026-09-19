@@ -1,0 +1,301 @@
+/* ============================================================================
+ * 尤诺桌宠 · 样式与动效（贴纸版 v3）
+ * ----------------------------------------------------------------------------
+ * 贴纸图：assets/iuno-pet.png（透明底 PNG，由 tools/make_pet_sprite.py 生成）。
+ * 挂在 document.body 上，position:fixed，不影响 DSH 任何布局。
+ * ==========================================================================*/
+
+.yn-pet {
+  position: fixed;
+  right: 26px;
+  bottom: 104px;
+  width: 128px;
+  z-index: 2147482000;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  animation: yn-pet-float 4.2s ease-in-out infinite;
+  transition: opacity 0.3s ease;
+  --yn-pet-tilt: 0deg;
+  --yn-pet-nod: 0px;
+}
+.yn-pet--dragging {
+  cursor: grabbing;
+  animation: none;
+  transition: none;
+}
+.yn-pet--gone {
+  display: none;
+}
+
+/* 贴纸本体：歪头（tilt）+ 前后微倾（nod）由 JS 写入，过渡丝滑 */
+.yn-pet-img {
+  width: 100%;
+  display: block;
+  pointer-events: none;
+  transform: rotate(var(--yn-pet-tilt)) translateY(var(--yn-pet-nod));
+  transition: transform 0.28s ease-out;
+  filter: drop-shadow(0 10px 18px rgba(3, 7, 15, 0.5));
+}
+.yn-pet--dragging .yn-pet-img {
+  transition: none;
+  transform: rotate(0deg) scale(1.04);
+}
+
+/* 点击月华：一圈金环 + 一圈星蓝环从贴纸中心绽开 */
+.yn-pet::before,
+.yn-pet::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60%;
+  height: 60%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+  pointer-events: none;
+}
+.yn-pet::before { border: 1.6px solid #ffe9b8; }
+.yn-pet::after { border: 1px solid rgba(190, 225, 255, 0.8); }
+.yn-pet--happy::before { animation: yn-pet-ring 0.72s ease-out; }
+.yn-pet--happy::after { animation: yn-pet-ring 0.72s ease-out 0.08s; }
+
+/* 点击蹦跳：挤压拉伸，Q 弹 */
+.yn-pet--happy .yn-pet-img {
+  animation: yn-pet-hop 0.62s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── 台词气泡 ───────────────────────────────────────────────────────────── */
+.yn-pet-say {
+  z-index: 3; /* 永远压在脚下余额小签之上 */
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translate(-50%, 6px) scale(0.94);
+  transform-origin: 50% 100%;
+  padding: 5px 11px;
+  border-radius: 12px 12px 12px 4px;
+  background: rgba(9, 15, 34, 0.94);
+  border: 0.5px solid rgba(157, 192, 255, 0.45);
+  color: #dcebff;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.26s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.9);
+}
+.yn-pet-say--on {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+/* ── 悬停余额小签：贴在脚下的小金环胶囊，pointer-events 全关，纯展示 ────── */
+.yn-pet-balance-tip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 1px);
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(9, 15, 34, 0.94);
+  border: 0.5px solid rgba(232, 205, 138, 0.45);
+  box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.9);
+  color: #f0cf8a;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -4px) scale(0.94);
+  transform-origin: 50% 0;
+  transition: opacity 0.18s ease, transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.yn-pet-balance-tip--on {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+/* 贴到屏幕底缘时翻到左上方（仍避开居中的台词气泡） */
+.yn-pet-balance-tip--up {
+  top: auto;
+  bottom: calc(100% + 6px);
+  left: 0;
+  transform: translate(0, 4px) scale(0.94);
+  transform-origin: 0 100%;
+}
+.yn-pet-balance-tip--up.yn-pet-balance-tip--on {
+  transform: translate(0, 0) scale(1);
+}
+.yn-pet-balance-tip-label { color: rgba(220, 235, 255, 0.7); }
+.yn-pet-balance-tip-val { font-variant-numeric: tabular-nums; }
+
+/* ── 小面板（右键）：夜蓝玻璃 + 金发丝的尤诺风 ──────────────────────────── */
+.yn-pet-panel {
+  position: absolute;
+  z-index: 4;
+  right: calc(100% + 10px);
+  bottom: 0;
+  width: 176px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(9, 15, 34, 0.96), rgba(7, 12, 30, 0.98));
+  border: 0.5px solid rgba(232, 205, 138, 0.35);
+  box-shadow: 0 14px 36px -14px rgba(0, 0, 0, 0.85);
+  color: #dcebff;
+  font-size: 12px;
+  line-height: 1.6;
+  cursor: default;
+  transform-origin: 100% 100%;
+  animation: yn-pet-panel-in 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.yn-pet-panel[hidden] { display: none; }
+@keyframes yn-pet-panel-in {
+  from { opacity: 0; transform: translateX(6px) scale(0.95); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+.yn-pet-panel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+}
+.yn-pet-panel-title {
+  color: #f0cf8a;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+  border-bottom: 0.5px solid rgba(232, 205, 138, 0.2);
+  margin-bottom: 2px;
+}
+.yn-pet-panel-label { color: rgba(220, 235, 255, 0.75); }
+
+/* 开关 */
+.yn-pet-switch {
+  width: 30px;
+  height: 17px;
+  border-radius: 999px;
+  border: 0.5px solid rgba(157, 192, 255, 0.4);
+  background: rgba(70, 112, 214, 0.18);
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.yn-pet-switch i {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #8ea4cc;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.18s ease;
+}
+.yn-pet-switch--on {
+  background: rgba(70, 112, 214, 0.55);
+  border-color: rgba(157, 192, 255, 0.8);
+}
+.yn-pet-switch--on i {
+  transform: translateX(13px);
+  background: #cfe0ff;
+}
+
+/* 音色三选一 */
+.yn-pet-timbres { display: flex; gap: 4px; }
+.yn-pet-timbre {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 0.5px solid rgba(157, 192, 255, 0.3);
+  background: transparent;
+  color: rgba(220, 235, 255, 0.7);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.yn-pet-timbre:hover { border-color: rgba(157, 192, 255, 0.65); color: #eaf2ff; }
+.yn-pet-timbre--on {
+  background: rgba(70, 112, 214, 0.4);
+  border-color: rgba(157, 192, 255, 0.85);
+  color: #eaf2ff;
+}
+
+/* 待机碎碎念行 */
+.yn-pet-panel-idle {
+  border-top: 0.5px solid rgba(232, 205, 138, 0.2);
+  margin-top: 2px;
+}
+
+/* 亮色下把气泡和面板换成浅底深字 */
+html body:not([data-ds-dark-theme]) .yn-pet-say {
+  background: rgba(255, 255, 255, 0.96);
+  color: #33509f;
+  border-color: rgba(70, 112, 214, 0.4);
+}
+html body:not([data-ds-dark-theme]) .yn-pet-panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 249, 255, 0.99));
+  border-color: rgba(70, 112, 214, 0.3);
+  color: #33509f;
+  box-shadow: 0 14px 36px -16px rgba(43, 63, 140, 0.45);
+}
+html body:not([data-ds-dark-theme]) .yn-pet-panel-label { color: rgba(51, 80, 159, 0.75); }
+html body:not([data-ds-dark-theme]) .yn-pet-balance-tip {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: rgba(176, 138, 62, 0.5);
+  color: #8a6a20;
+  box-shadow: 0 6px 18px -12px rgba(43, 63, 140, 0.5);
+}
+html body:not([data-ds-dark-theme]) .yn-pet-balance-tip-label { color: rgba(51, 80, 159, 0.7); }
+html body:not([data-ds-dark-theme]) .yn-pet-img {
+  filter: drop-shadow(0 8px 16px rgba(43, 63, 140, 0.28));
+}
+
+/* ── 关键帧 ─────────────────────────────────────────────────────────────── */
+@keyframes yn-pet-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes yn-pet-hop {
+  0% { transform: translateY(0) scale(1); }
+  32% { transform: translateY(-14px) scale(1.06, 0.94); }
+  62% { transform: translateY(0) scale(0.95, 1.06); }
+  100% { transform: translateY(0) scale(1); }
+}
+@keyframes yn-pet-ring {
+  0% { opacity: 0.95; transform: translate(-50%, -50%) scale(0.4); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yn-pet,
+  .yn-pet--happy .yn-pet-img,
+  .yn-pet--happy::before,
+  .yn-pet--happy::after {
+    animation: none !important;
+  }
+  .yn-pet-img {
+    transition: none;
+  }
+}
+
+/* 鼠标流光画布：只发光，不挡点击；亮色下压暗 */
+.yn-trail {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2147482500;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+html body:not([data-ds-dark-theme]) .yn-trail {
+  mix-blend-mode: normal;
+  opacity: 0.4;
+}

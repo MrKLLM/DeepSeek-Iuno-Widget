@@ -1,0 +1,34 @@
+{
+  "name": "dsh-iuno-widget",
+  "version": "0.8.1",
+  "description": "DSH Web 界面尤诺（Iuno）整站主题皮肤 —— 整张立绘作背景、细金发丝线点缀、极简月环徽记",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "theme",
+    "skin",
+    "iuno",
+    "background",
+    "wallpaper"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "assets",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrKLLM/DeepSeek-Iuno-Widget.git"
+  },
+  "homepage": "https://github.com/MrKLLM/DeepSeek-Iuno-Widget#readme",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,142 @@
+# =============================================================================
+#  DeepSeek-Iuno-Widget  ·  .gitignore
+#
+#  目标：只把「插件源码 + 资源 + 文档」推进仓库，
+#        编辑器 / AI IDE / AI Agent 的本地配置、会话与生成物一律不入库。
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. 依赖与构建产物
+# -----------------------------------------------------------------------------
+node_modules/
+.pnpm-store/
+dist/
+build/
+.cache/
+.tmp/
+*.tsbuildinfo
+
+# -----------------------------------------------------------------------------
+# 2. 编辑器 —— VS Code 及其分支 / 兼容发行版
+# -----------------------------------------------------------------------------
+.vscode/
+.vscode-*/
+.vscodium/
+.positron/
+.zed/
+.fleet/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# -----------------------------------------------------------------------------
+# 3. AI IDE —— AI 原生编辑器的本地目录
+#    Trae / Cursor / Windsurf / Qoder / Kiro / Void 等
+# -----------------------------------------------------------------------------
+.trae/
+.trae-cn/
+.cursor/
+.cursorignore
+.cursorrules/
+.windsurf/
+.codeium/
+.qoder/
+.kiro/
+.void/
+.idx/
+.replit/
+.bolt/
+.ona/
+.gitpod/
+
+# -----------------------------------------------------------------------------
+# 4. AI Agent —— 各类 CLI / 插件的会话、记忆与配置目录
+#    WorkBuddy / CodeBuddy / Claude / Codex / Gemini / Copilot / Cline / Aider 等
+# -----------------------------------------------------------------------------
+.workbuddy-ai/
+.codebuddy/
+.codebuddy-ai/
+.claude/
+.claude-flow/
+.codex/
+.copilot/
+.gemini/
+.gemini-cli/
+.aider/
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache/
+.continue/
+.continueignore
+.cline/
+.clinerules/
+.roo/
+.roocode/
+.roomodes
+.augment/
+.augmentignore
+.amazonq/
+.amp/
+.opencode/
+.crush/
+.iflow/
+.warp/
+.agent/
+.agents/
+.agent-presets/
+.llm/
+.anthropic/
+.openai/
+.ollama/
+.mcp/
+.mcp.json
+.specstory/
+.repomix/
+.repomixignore
+.traeignore
+
+# -----------------------------------------------------------------------------
+# 5. 本项目专属：生成物与本地工作文件
+# -----------------------------------------------------------------------------
+# 从本机已安装的 DSH 包中抽取的真实组件 CSS（由 tools/extract_dsh_css.py 生成）
+tools/_dshcss/
+# 皮肤与桌宠的复刻验证截图（可由 tools/ 下脚本重新生成）
+tools/skin-*.png
+tools/pet.png
+tools/pet-zoom.png
+# 本地试验暂存区
+.trash/
+
+# -----------------------------------------------------------------------------
+# 6. 环境变量与密钥 —— 切勿入库
+# -----------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials.json
+.secrets/
+
+# -----------------------------------------------------------------------------
+# 7. 日志
+# -----------------------------------------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# -----------------------------------------------------------------------------
+# 8. 操作系统
+# -----------------------------------------------------------------------------
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
