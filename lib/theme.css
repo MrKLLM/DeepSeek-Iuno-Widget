@@ -168,8 +168,8 @@ html body:not([data-ds-dark-theme]) {
   background-size: cover;
   background-position: 58% 26%;
   background-repeat: no-repeat;
-  /* 仅极轻微压暗，保证可读性，壁纸完全清晰 */
-  filter: brightness(0.86);
+  /* 压暗程度由 --yn-wall-brightness 控制（默认 0.86），右键面板里可调 */
+  filter: brightness(var(--yn-wall-brightness, 0.86));
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -187,49 +187,31 @@ html body:not([data-ds-dark-theme]) [class*="_sidebarCol"] {
 }
 
 html body [class*="_brandName"] {
-  /* 底层常驻金渐变 + 顶层一条白色高光带（藏在画外），hover 时高光带扫过字身 */
-  background:
-    linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58%) no-repeat,
-    linear-gradient(100deg, #fff6dd 0%, #f0cf8a 55%, #cfe0ff 100%);
-  background-size: 250% 100%, 100% 100%;
-  background-position: 160% 0, 0 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  /* 收紧字距与字号，配合徽记限宽后，"deepseek HARNESS" 在 236px 侧栏里放得下 */
+  /* 金色实心字；hover 时一道金色 text-shadow 闪过。
+     不用 background-clip:text + color:transparent —— 子元素自成图层时文字会整个隐形 */
+  color: #f0cf8a;
   letter-spacing: 0.02em;
   font-size: 17px;
   white-space: nowrap;
+  transition: text-shadow 0.4s ease;
 }
-/* 品牌名：hover 时一道金光扫过字身 */
 html body [class*="_brand"]:hover [class*="_brandName"] {
   animation: yn-brand-shine 1.1s ease;
 }
 @keyframes yn-brand-shine {
-  from { background-position: 160% 0, 0 0; }
-  to   { background-position: -60% 0, 0 0; }
+  0%   { text-shadow: 0 0 0 rgba(255, 232, 180, 0); }
+  50%  { text-shadow: 0 0 14px rgba(255, 232, 180, 0.85); }
+  100% { text-shadow: 0 0 0 rgba(255, 232, 180, 0); }
 }
-/* 品牌名里自带 opacity 的子 span（如 "deepseek"）会自成图层，父元素的
-   background-clip:text 画不到它，而 color:transparent 又让它隐形——
-   给子 span 单独配一份同款渐变裁切，hover 时同样被金光扫过 */
-html body [class*="_brandName"] > span {
-  background:
-    linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58%) no-repeat,
-    linear-gradient(100deg, #fff6dd 0%, #f0cf8a 55%, #cfe0ff 100%);
-  background-size: 250% 100%, 100% 100%;
-  background-position: 160% 0, 0 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* 浅色下品牌名压成深金，避免太浅看不清 */
+html body:not([data-ds-dark-theme]) [class*="_brandName"] {
+  color: #8a6a20;
 }
-html body [class*="_brand"]:hover [class*="_brandName"] > span {
-  animation: yn-brand-shine 1.1s ease;
-}
+
 html body [class*="_brandMark"] svg {
-  /* 原图 50px 太大，把品牌名挤到截断，限到 24px 让位 */
+  /* 原图 50px 太大，把品牌名挤到截断，限到 24px 让位；颜色保持 DSH 原色不染金 */
   max-width: 24px;
   max-height: 24px;
-  color: var(--yn-gold);
   transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
 }
 /* 品牌徽记：hover 时像被月光点了一下，轻轻一斜 */

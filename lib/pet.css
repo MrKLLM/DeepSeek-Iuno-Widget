@@ -233,6 +233,62 @@
   margin-top: 2px;
 }
 
+/* 壁纸亮度行：滑杆 + 百分比 */
+.yn-pet-wall-bright {
+  border-top: 0.5px solid rgba(232, 205, 138, 0.2);
+  margin-top: 2px;
+}
+.yn-pet-wall-bright-wrap { display: flex; align-items: center; gap: 6px; }
+.yn-pet-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 88px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(157, 192, 255, 0.35);
+  outline: none;
+  cursor: pointer;
+}
+.yn-pet-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #cfe0ff;
+  border: 0.5px solid rgba(157, 192, 255, 0.8);
+  box-shadow: 0 0 6px rgba(157, 192, 255, 0.6);
+}
+.yn-pet-slider::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #cfe0ff;
+  border: 0.5px solid rgba(157, 192, 255, 0.8);
+}
+.yn-pet-slider-val {
+  font-style: normal;
+  font-size: 11px;
+  min-width: 34px;
+  text-align: right;
+  color: rgba(220, 235, 255, 0.85);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 背景：更换 / 默认 两个小按钮 */
+.yn-pet-wall-btns { display: flex; gap: 4px; }
+.yn-pet-wall-btn {
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 0.5px solid rgba(232, 205, 138, 0.4);
+  background: transparent;
+  color: rgba(240, 207, 138, 0.85);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.yn-pet-wall-btn:hover { border-color: rgba(240, 207, 138, 0.85); color: #ffeec2; background: rgba(240, 207, 138, 0.10); }
+
 /* 亮色下把气泡和面板换成浅底深字 */
 html body:not([data-ds-dark-theme]) .yn-pet-say {
   background: rgba(255, 255, 255, 0.96);
@@ -246,6 +302,12 @@ html body:not([data-ds-dark-theme]) .yn-pet-panel {
   box-shadow: 0 14px 36px -16px rgba(43, 63, 140, 0.45);
 }
 html body:not([data-ds-dark-theme]) .yn-pet-panel-label { color: rgba(51, 80, 159, 0.75); }
+html body:not([data-ds-dark-theme]) .yn-pet-slider { background: rgba(70, 112, 214, 0.3); }
+html body:not([data-ds-dark-theme]) .yn-pet-slider::-webkit-slider-thumb { background: #4670d6; border-color: rgba(70, 112, 214, 0.7); }
+html body:not([data-ds-dark-theme]) .yn-pet-slider::-moz-range-thumb { background: #4670d6; border-color: rgba(70, 112, 214, 0.7); }
+html body:not([data-ds-dark-theme]) .yn-pet-slider-val { color: rgba(51, 80, 159, 0.8); }
+html body:not([data-ds-dark-theme]) .yn-pet-wall-btn { color: rgba(107, 82, 32, 0.85); border-color: rgba(176, 138, 62, 0.45); }
+html body:not([data-ds-dark-theme]) .yn-pet-wall-btn:hover { color: #6b5220; background: rgba(176, 138, 62, 0.12); border-color: rgba(176, 138, 62, 0.7); }
 html body:not([data-ds-dark-theme]) .yn-pet-balance-tip {
   background: rgba(255, 255, 255, 0.97);
   border-color: rgba(176, 138, 62, 0.5);
