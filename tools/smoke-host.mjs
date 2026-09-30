@@ -220,5 +220,37 @@ assert.deepEqual(mod.inject, ['webServer', 'credentials'])
   ok('多币种钱包合并', JSON.stringify(body.balances))
 }
 
+/* ── 4. 缓存与强制刷新：无 force 走宿主 60s 缓存，?force=1 必须重新查 ────── */
+{
+  let calls = 0
+  const account = {
+    async getState() { return { status: 'credential-stored', links: {}, attempt: null } },
+    async getBalance() {
+      calls++
+      return { status: 'ready', value: [{ currency: 'CNY', balance: String(10 + calls) }], bonusWallets: [] }
+    },
+  }
+  const { ctx, routes } = makeCtx({ account })
+  mod.apply(ctx)
+  const get = async (q) => {
+    const res = fakeRes()
+    await routes.get('/dsh-iuno/balance.json').handler(fakeReq('GET', '/dsh-iuno/balance.json' + (q || '')), res)
+    return JSON.parse(String(res.body))
+  }
+  const a = await get()
+  assert.equal(a.balances[0].total, 11)
+  assert.equal(calls, 1)
+  const b = await get()
+  assert.equal(b.balances[0].total, 11)
+  assert.equal(calls, 1, '第二次（无 force）应命中缓存')
+  const c = await get('?force=1')
+  assert.equal(c.balances[0].total, 12, '?force=1 应重新查询')
+  assert.equal(calls, 2)
+  const d = await get('?force=1')
+  assert.equal(d.balances[0].total, 13)
+  assert.equal(calls, 3)
+  ok('余额缓存：无 force 命中缓存，?force=1 强制刷新', 'calls=' + calls)
+}
+
 console.log(results.join('\n'))
 console.log('\n全部通过：' + results.length + ' 项')
