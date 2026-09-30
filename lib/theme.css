@@ -10,6 +10,32 @@
  * ==========================================================================*/
 
 /* ══════════════════════════════════════════════════════════════════════════
+   0. 选择器约定（改之前先读这一段）
+   ──────────────────────────────────────────────────────────────────────────
+   DSH 前端不给组件稳定的类名，只有「哈希 + 可读名」两段，例如：
+
+     旧命名（部分插件）：_2H3hWW_newSession       ← 前导下划线
+     新命名（已迁移的插件）：Dc7zOa_composerStack   ← 没有前导下划线
+
+   两种命名里，哈希与可读名之间**总有**一个下划线，所以 [class*="_xxx"]
+   对两种命名都命中 —— 皮肤一律用这种写法，不要去写完整类名。
+
+   坑：`[class*="_newSession"]` 会同时命中按钮内部的
+   newSessionContent / newSessionShortcut（于是边框、月牙被套了两层），
+   所以外层规则必须用 :not() 把内部变体排除掉，只留最外层那个元素：
+
+     _newSession   → :not([class*="Label"]) :not([class*="Content"]) :not([class*="Shortcut"])
+     _primary      → :not([class*="Button"]) :not([class*="Option"]) :not([class*="Item"])
+     _card         → :not([class*="Workspace"]) :not([class*="Icon"]) :not([class*="Content"])
+     _iconButton   → :not([class*="Danger"])
+     _trigger      → :not([class*="Label"]) :not([class*="Icon"]) :not([class*="Effort"])
+     标题文字       → 该 <span> 自己没有类名，只能按结构取
+                     [class*="titleGroup"] > span:first-child
+
+   改完请对照「三元组」自查：命中数 >1 时，确认你是真的想给每个变体都上样式。
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════════════════
    1. 强调色（明暗共用）
    ══════════════════════════════════════════════════════════════════════════ */
 html body {
@@ -221,7 +247,7 @@ html body [class*="_brand"]:hover [class*="_brandMark"] svg {
 }
 
 /* 「新会话」—— 细金边 + 玻璃底；加号换成一弯月牙，hover 月光拂过 */
-html body [class*="_newSession"]:not([class*="Label"]) {
+html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"]) {
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, rgba(240, 207, 138, 0.14), rgba(240, 207, 138, 0.04));
@@ -232,8 +258,8 @@ html body [class*="_newSession"]:not([class*="Label"]) {
               box-shadow 0.2s ease, transform 0.12s ease;
 }
 /* 隐藏原来的「+」图标，换成一弯会呼吸的尤诺蓝月牙（与发送键同款 SVG） */
-html body [class*="_newSession"]:not([class*="Label"]) svg { display: none; }
-html body [class*="_newSession"]:not([class*="Label"])::before {
+html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"]) svg { display: none; }
+html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"])::before {
   content: '';
   width: 14px;
   height: 14px;
@@ -243,11 +269,11 @@ html body [class*="_newSession"]:not([class*="Label"])::before {
   display: inline-block;
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-html body [class*="_newSession"]:not([class*="Label"]):hover::before {
+html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"]):hover::before {
   transform: rotate(-24deg) scale(1.15);
 }
 /* hover 时一缕月光从左向右拂过（仅一次 transform 动画，极轻） */
-html body [class*="_newSession"]:not([class*="Label"])::after {
+html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"])::after {
   content: '';
   position: absolute;
   top: 0;
@@ -259,7 +285,7 @@ html body [class*="_newSession"]:not([class*="Label"])::after {
   opacity: 0;
   pointer-events: none;
 }
-html body [class*="_newSession"]:not([class*="Label"]):hover::after {
+html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"]):hover::after {
   opacity: 1;
   animation: yn-moon-sweep 0.9s ease;
 }
@@ -267,35 +293,35 @@ html body [class*="_newSession"]:not([class*="Label"]):hover::after {
   from { left: -60%; }
   to { left: 130%; }
 }
-html body [class*="_newSession"]:not([class*="Label"]):hover {
+html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"]):hover {
   background: linear-gradient(180deg, rgba(240, 207, 138, 0.24), rgba(240, 207, 138, 0.10));
   border-color: rgba(255, 232, 180, 0.7);
   box-shadow: 0 0 18px -8px rgba(255, 214, 140, 0.85);
   transform: translateY(-1px);
 }
-html body [class*="_newSession"]:not([class*="Label"]):active {
+html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"]):active {
   transform: translateY(0) scale(0.985);
   transition-duration: 0.06s;
 }
-html body:not([data-ds-dark-theme]) [class*="_newSession"]:not([class*="Label"]) {
+html body:not([data-ds-dark-theme]) [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"]) {
   color: #6b5220;
   background: linear-gradient(180deg, rgba(240, 207, 138, 0.32), rgba(240, 207, 138, 0.14));
   border-color: rgba(176, 138, 62, 0.45);
 }
-html body:not([data-ds-dark-theme]) [class*="_newSession"]:not([class*="Label"])::before {
+html body:not([data-ds-dark-theme]) [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"])::before {
   filter: brightness(0.88) saturate(1.25);
 }
 
 /* 图标按钮：hover 金色微光 + 轻微浮起，按下回弹 */
-html body [class*="_iconButton"] {
+html body [class*="_iconButton"]:not([class*="Danger"]) {
   transition: color 0.16s ease, background 0.16s ease, transform 0.12s ease;
 }
-html body [class*="_iconButton"]:hover {
+html body [class*="_iconButton"]:not([class*="Danger"]):hover {
   color: var(--yn-gold);
   background: rgba(232, 205, 138, 0.10);
   transform: translateY(-1px);
 }
-html body [class*="_iconButton"]:active {
+html body [class*="_iconButton"]:not([class*="Danger"]):active {
   transform: scale(0.92);
   transition-duration: 0.06s;
 }
@@ -316,14 +342,14 @@ html body [class*="_projectRow"]:hover {
 /* ══════════════════════════════════════════════════════════════════════════
    6. 输入区 —— 一条细金边的轻玻璃（去掉四角支架、内环、水印）
    ══════════════════════════════════════════════════════════════════════════ */
-html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]) {
+html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):not([class*="Icon"]):not([class*="Content"]) {
   /* 同样不能加 backdrop-filter：输入卡里有 fixed 定位的模型/权限下拉 */
   background: linear-gradient(180deg, rgba(12, 22, 50, 0.80) 0%, rgba(6, 12, 30, 0.86) 100%);
   border: none;
   box-shadow: inset 0 0 0 0.5px var(--yn-hair), 0 16px 40px -24px rgba(0, 0, 0, 0.7);
   transition: box-shadow 0.2s ease;
 }
-html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):focus-within {
+html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):not([class*="Icon"]):not([class*="Content"]):focus-within {
   box-shadow: inset 0 0 0 0.5px var(--yn-gold-soft), 0 16px 40px -24px rgba(0, 0, 0, 0.7);
   animation: yn-composer-glow 2.6s ease-in-out infinite;
 }
@@ -332,7 +358,7 @@ html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):f
   0%, 100% { box-shadow: inset 0 0 0 0.5px var(--yn-gold-soft), 0 16px 40px -24px rgba(0, 0, 0, 0.7); }
   50% { box-shadow: inset 0 0 0 0.5px rgba(255, 232, 180, 0.55), 0 0 28px -10px rgba(255, 214, 140, 0.5), 0 16px 40px -24px rgba(0, 0, 0, 0.7); }
 }
-html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]) {
+html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):not([class*="Icon"]):not([class*="Content"]) {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 251, 255, 0.94) 100%);
 }
 
@@ -444,15 +470,15 @@ html body [class*="_composerStack"] [class*="_selector"]:hover {
   background: rgba(232, 205, 138, 0.10);
   box-shadow: 0 0 0 0.5px var(--yn-hair);
 }
-html body [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]) {
+html body [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]):not([class*="Effort"]) {
   transition: color 0.16s ease, background 0.16s ease;
 }
-html body [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]):hover {
+html body [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]):not([class*="Effort"]):hover {
   color: #ffeec2;
   background: rgba(232, 205, 138, 0.08);
 }
 html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_selector"]:hover,
-html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]):hover {
+html body:not([data-ds-dark-theme]) [class*="_composerStack"] [class*="_trigger"]:not([class*="Label"]):not([class*="Icon"]):not([class*="Effort"]):hover {
   background: rgba(176, 138, 62, 0.10);
   color: #6b5220;
 }
@@ -470,8 +496,11 @@ html body:not([data-ds-dark-theme]) [class*="_headline"]:not([class*="Text"]) {
   text-shadow: 0 0 14px rgba(122, 166, 245, 0.25);
 }
 
-/* 起始页标题：一道月光每隔几秒缓缓扫过字身 */
-html body [class*="_headlineText"] {
+/* 起始页标题：一道月光每隔几秒缓缓扫过字身
+   注意：标题文字那个 <span> 自己没有类名（只有 Hqq-bq_titleGroup 包着它，
+   原版的 _headlineText 在当前构建里已不存在），所以这里按结构取
+   titleGroup 的第一个 span —— 第二个 span 是「预览」小徽章，要跳过。 */
+html body [class*="titleGroup"] > span:first-child {
   background: linear-gradient(110deg, var(--yn-moon) 38%, #f6d98f 50%, var(--yn-moon) 62%);
   background-size: 240% 100%;
   background-position: 120% 0;
@@ -485,7 +514,7 @@ html body [class*="_headlineText"] {
   45% { background-position: -30% 0; }
   100% { background-position: -30% 0; }
 }
-html body:not([data-ds-dark-theme]) [class*="_headlineText"] {
+html body:not([data-ds-dark-theme]) [class*="titleGroup"] > span:first-child {
   background: linear-gradient(110deg, #16203a 38%, #c39a45 50%, #16203a 62%);
   background-size: 240% 100%;
   background-position: 120% 0;
@@ -581,13 +610,13 @@ html body:not([data-ds-dark-theme]) .yn-skin-stars { opacity: 0.12; }
 @media (prefers-reduced-motion: reduce) {
   .yn-skin-stars,
   .yn-skin-veil::before { animation: none !important; }
-  html body [class*="_newSession"]:not([class*="Label"]):hover::after { animation: none !important; }
-  html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):focus-within { animation: none !important; }
+  html body [class*="_newSession"]:not([class*="Label"]):not([class*="Content"]):not([class*="Shortcut"]):hover::after { animation: none !important; }
+  html body [class*="_composerStack"] [class*="_card"]:not([class*="Workspace"]):not([class*="Icon"]):not([class*="Content"]):focus-within { animation: none !important; }
   html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]) { animation: none !important; }
   html body [class*="_composerStack"] [class*="_primary"]:not([class*="Button"]):active:not(:disabled)::after { animation: none !important; }
   html body [class*="_bubble"] { animation: none !important; }
   html body [class*="_frame"] { transition: none !important; }
-  html body [class*="_headlineText"] { animation: none !important; background-position: 0 0; }
+  html body [class*="titleGroup"] > span:first-child { animation: none !important; background-position: 0 0; }
   html body [class*="_brand"]:hover [class*="_brandName"],
   html body [class*="_brand"]:hover [class*="_brandName"] > span { animation: none !important; }
 }

@@ -135,6 +135,16 @@
 }
 .yn-pet-balance-tip-label { color: rgba(220, 235, 255, 0.7); }
 .yn-pet-balance-tip-val { font-variant-numeric: tabular-nums; }
+/* 可用余额（充值 + 赠送），主数字最亮 */
+.yn-pet-balance-tip-main { color: #ffe9b8; font-weight: 600; }
+/* 赠送部分缩一级，避免和可用余额抢注意力 */
+.yn-pet-balance-tip-bonus {
+  margin-left: 5px;
+  color: rgba(190, 216, 255, 0.66);
+  font-size: 10px;
+  font-weight: 400;
+}
+.yn-pet-balance-tip-sep { margin: 0 6px; color: rgba(232, 205, 138, 0.4); }
 
 /* ── 小面板（右键）：夜蓝玻璃 + 金发丝的尤诺风 ──────────────────────────── */
 .yn-pet-panel {
